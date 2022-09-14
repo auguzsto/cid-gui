@@ -14,6 +14,7 @@ Alterar a linha %sudo... para %sudo ALL=(ALL) NOPASSWD: ALL
 Aplicação foi testada no sistema operacional Debian 11, apache2, php7.4.
 
 - Instale o apache2 e o php.
+
 #sudo apt-get install apache2 && sudo apt-get install php
 
 # Recomendações
