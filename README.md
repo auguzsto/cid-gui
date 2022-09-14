@@ -1,7 +1,10 @@
 # cid-gui
+
 Esse projeto tem como base o CID. https://sourceforge.net/projects/c-i-d/ 
 
 Agradecimentos pelo excelente trabalho ao Eduardo Moraes https://sourceforge.net/u/emoraes25/profile/
+
+![image](https://user-images.githubusercontent.com/40308971/190188060-bb3a4c19-8fcf-487d-82a1-ea736b12c2ef.png)
 
 # Requerimentos
 #sudo adduser www-data sudo
