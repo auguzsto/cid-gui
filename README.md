@@ -1,4 +1,4 @@
-# cid-gui
+# cid-gui-web
 
 Esse projeto tem como base o CID. https://sourceforge.net/projects/c-i-d/ 
 
