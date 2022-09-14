@@ -62,7 +62,7 @@
                     $veto = "--hidden";
                     break;
             }
-        $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name=$name path=$path rule=$oprule$rule $veto");
+        $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' path='$path' rule=$oprule$rule $veto");
             if($shell) {
                 echo "Feito.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name=$name path=$path rule=$oprule$rule $veto";
             } else {
