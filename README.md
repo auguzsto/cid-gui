@@ -12,11 +12,11 @@ Agradecimentos pelo excelente trabalho ao Eduardo Moraes https://sourceforge.net
 
 Aplicação foi testada no sistema operacional Debian 11, apache2, php7.4.
 
-#sudo apt-get install apache2 && sudo apt-get install php
+>#sudo apt-get install apache2 && sudo apt-get install php
 
-#sudo adduser www-data sudo
+>#sudo adduser www-data sudo
 
-#sudo nano /etc/sudoers
+>#sudo nano /etc/sudoers
 
 Alterar a linha %sudo... para %sudo ALL=(ALL) NOPASSWD: ALL
 
