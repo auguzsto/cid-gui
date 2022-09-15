@@ -1,6 +1,6 @@
 # cid-gui-web
 
-![image](https://user-images.githubusercontent.com/40308971/190385252-560a7817-e916-4159-8157-f84a135d1d3e.png)
+![image](https://user-images.githubusercontent.com/40308971/190457675-672766bc-dd41-4c58-ac7a-c7f71568764b.png)
 
 # Projeto original
 
