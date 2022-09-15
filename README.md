@@ -1,10 +1,12 @@
 # cid-gui-web
 
+![image](https://user-images.githubusercontent.com/40308971/190385252-560a7817-e916-4159-8157-f84a135d1d3e.png)
+
+# Projeto original
+
 Esse projeto tem como base o CID. https://sourceforge.net/projects/c-i-d/ 
 
 Agradecimentos pelo excelente trabalho ao Eduardo Moraes https://sourceforge.net/u/emoraes25/profile/
-
-![image](https://user-images.githubusercontent.com/40308971/190188060-bb3a4c19-8fcf-487d-82a1-ea736b12c2ef.png)
 
 # Requerimentos
 #sudo adduser www-data sudo
