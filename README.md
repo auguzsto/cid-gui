@@ -21,4 +21,4 @@ Aplicação foi testada no sistema operacional Debian 11, apache2, php7.4.
 Alterar a linha %sudo... para %sudo ALL=(ALL) NOPASSWD: ALL
 
 # Recomendações
-Por segurança, não permita essa aplicação ser acessível por meio externo, deixei acessível apenas com localhost.
+Por segurança, não permita essa aplicação ser acessível por meio externo, deixe acessível apenas com localhost.
