@@ -19,14 +19,22 @@
                     <label for="" class="mb-1">Regras:</label>
                     <div class="input-group mb-3">
                         <select name="op-rule" id="op-rule" class="form-select">
-                                    <option value="adduser">+ Usuário</option>
-                                    <option value="addgroup">+ Grupo</option>
-                                    <option value="remuser">- Usuário</option>
-                                    <option value="remgroup">- Grupo</option>
-                                </select>
-                            <input type="text" name="rule" id="rule" class="form-control" placeholder="usuário/grupo:f" required>
+                                <option value="adduser">+ Usuário</option>
+                                <option value="addgroup">+ Grupo</option>
+                                <option value="remuser">- Usuário</option>
+                                <option value="remgroup">- Grupo</option>
+                             </select>
+                        <input type="text" name="rule" id="rule" class="form-control" placeholder="usuário/grupo" required>
                     </div>
-                    <label for="" class="mb-1">Permitir arq. compactados:</label><select name="veto" id="veto" class="form-select mb-3">
+                    <div class="form-check-inline">
+                        <input type="radio" class="form-check-input" id="radio1" name="rulefr" value=":f"> Leitura e gravação :f
+                        <label class="form-check-label" for="radio1"></label>
+                    </div>
+                    <div class="form-check-inline">
+                        <input type="radio" class="form-check-input" id="radio2" name="rulefr" value=":r"> Apenas leitura :r
+                        <label class="form-check-label" for="radio2"></label>
+                    </div>
+                    <label for="" class="mb-1 mt-2">Permitir arq. compactados:</label><select name="veto" id="veto" class="form-select mb-3">
                     <option value="no">Não</option>
                     <option value="yes">Sim</option>
                     </select>
@@ -38,6 +46,15 @@
     if(isset($_POST['validar'])) {
         $name = $_POST['name'];
         $path = $_POST['path'];
+        $rulefr = $_POST['rulefr'];
+            switch ($rulefr) {
+                case ':f':
+                    $rulefr = ":f";
+                    break;
+                case ':r':
+                    $rulefr = ":r";
+                    break;
+            }
         $oprule = $_POST['op-rule'];
             switch ($oprule) {
                 case 'adduser':
@@ -51,6 +68,7 @@
                     break;
                 case 'remgroup':
                     $oprule = "-g:";
+                    break;
             }
         $rule = $_POST['rule'];
         $veto = $_POST['veto'];
@@ -62,7 +80,8 @@
                     $veto = "--hidden";
                     break;
             }
-        $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' path='$path' rule='$oprule$rule' $veto");
+
+        $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' path='$path' rule='$oprule$rule$rulefr' $veto");
             if($shell) {
                 echo "Feito.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name=$name path=$path rule=$oprule$rule $veto";
             } else {

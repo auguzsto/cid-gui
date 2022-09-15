@@ -24,7 +24,15 @@
                                     <option value="remuser">- Usuário</option>
                                     <option value="remgroup">- Grupo</option>
                                 </select>
-                            <input type="text" name="rule" id="rule" class="form-control" placeholder="usuário/grupo:f">
+                            <input type="text" name="rule" id="rule" class="form-control" placeholder="usuário/grupo">
+                    </div>
+                    <div class="form-check-inline">
+                        <input type="radio" class="form-check-input" id="radio1" name="rulefr" value=":f"> Leitura e gravação :f
+                        <label class="form-check-label" for="radio1"></label>
+                    </div>
+                    <div class="form-check-inline">
+                        <input type="radio" class="form-check-input" id="radio2" name="rulefr" value=":r"> Apenas leitura :r
+                        <label class="form-check-label" for="radio2"></label>
                     </div>
                     <label for="" class="mb-1">Permitir arq. compactados:</label><select name="veto" id="veto" class="form-select mb-3">
                     <option value="none">Escolher</option>
@@ -39,6 +47,15 @@
     if(isset($_POST['validar'])) {
         $name = $_POST['name'];
         $path = $_POST['path'];
+        $rulefr = $_POST['rulefr'];
+            switch ($rulefr) {
+                case ':f':
+                    $rulefr = ":f";
+                    break;
+                case ':r':
+                    $rulefr = ":r";
+                    break;
+            }
         $oprule = $_POST['op-rule'];
             switch ($oprule) {
                 case 'none':
@@ -75,15 +92,15 @@
         } 
         
         elseif($veto == NULL) {
-            $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule'");
+            $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr'");
         }
         else {
-            $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule' $veto");
+            $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr' $veto");
         }
             if($shell) {
-                echo "Feito.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name=$name path=$path rule=$oprule$rule $veto";
+                echo "Feito.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name=$name path=$path rule=$oprule$rule$rulefr $veto";
             } else {
-                echo "Erro.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name=$name path=$path rule=$oprule$rule $veto";
+                echo "Erro.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name=$name path=$path rule=$oprule$rule$rulefr $veto";
             }
     }
 ?>
