@@ -27,3 +27,10 @@ function addInput6 (event) {
     const adding = document.getElementById('adding7')
     adding.innerHTML = "<div class='input-group mt-1'><button type=button class='btn btn-primary' id=addinput onclick='addInput7();'>+</button><select name=op-rule7 id=op-rule7 class=form-select><option value=adduser7>+ Usuário</option><option value=addgroup7>+ Grupo</option></select><input type=text name=rule7 id=rule7 class=form-control placeholder=usuário/grupo required></div><div class='form-check-inline mt-3'><input type='radio' class='form-check-input' id='radio7' name='rulefr7' value=':f'> Leitura e gravação :f<label class='form-check-label' for='radio7'></label></div><div class='form-check-inline mt-3'><input type='radio' class='form-check-input' id='radio7' name='rulefr7' value=':r'> Apenas leitura :r<label class='form-check-label' for='radio7'></label></div>"
 }
+
+const pveto = document.getElementById('deny-padrao');
+pveto.addEventListener('click', (event) => {
+    if(pveto.checked = true) {
+        pveto.checked.disabled = true;
+    }
+})

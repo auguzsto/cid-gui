@@ -11,8 +11,8 @@
 <body class="bg-whitesmoke">
     <div class="container p-5 justify-items-center">
         <div class="row g-3 d-flex justify-content-center">
-            <div class="col-sm-4 border rounded-3 p-3 bg-white">
-                <h1 class="bg-primary p-2 rounded-3 text-white text-center mb-3">Atualizar</h1>
+            <div class="col-sm-6 border rounded-3 p-3 bg-white">
+            <div class="d-flex justify-content-between"><h1>Atualizar</h1><a href="./index.php" class="btn btn-primary p-2 mb-3"> Adicionar</a></div>
                 <form action="<?php $_SERVER['PHP_SELF'];?>" method="POST">
                     <label for="" class="mb-1">Nome:</label><input type="text" name="name" id="name" class="form-control mb-3" placeholder="Nome do compartilhado" required>
                     <label for="" class="mb-1">Regras:</label>
@@ -34,12 +34,25 @@
                         <input type="radio" class="form-check-input" id="radio2" name="rulefr" value=":r"> Apenas leitura :r
                         <label class="form-check-label" for="radio2"></label>
                     </div>
-                    <label for="" class="mb-1">Permitir arq. compactados:</label><select name="veto" id="veto" class="form-select mb-3">
-                    <option value="none">Escolher</option>
-                    <option value="no">Não</option>
-                    <option value="yes">Sim</option>
-                    </select>
-                    <input type="submit" value="OK" name="validar" id="validar" class="form-control btn btn-primary">
+                    <hr>
+                    <div>Restrição de arquivos:</div>
+                    <div class="form-check form-switch form-check-inline mt-2">
+                        <input class="form-check-input" type="checkbox" name="pveto" value="deny-padrao" id="deny-padrao" >
+                        <label class="form-check-label">Padrão</label>
+                    </div>
+                    <div class="form-check form-switch form-check-inline mt-2">
+                        <input class="form-check-input" type="checkbox" name="cveto" value="deny-compactados" id="deny-compactados" >
+                        <label class="form-check-label">Compactados</label>
+                    </div>
+                    <div class="form-check form-switch form-check-inline mt-2">
+                        <input class="form-check-input" type="checkbox" name="iveto" value="deny-imagens" id="deny-imagens" >
+                        <label class="form-check-label">Imagens</label>
+                    </div>
+                    <div class="form-check form-switch form-check-inline mt-2">
+                        <input class="form-check-input" type="checkbox" name="mveto" value="deny-macros" id="deny-macros" >
+                        <label class="form-check-label">Macros</label>
+                    </div>
+                    <input type="submit" value="OK" name="validar" id="validar" class="form-control btn btn-primary mt-2">
                 </form>
             </div>
         </div>
@@ -74,36 +87,55 @@
                     $oprule = "-g:";
 
             }
-        $rule = $_POST['rule'];
-        $veto = $_POST['veto'];
-            switch ($veto){
-                case 'none':
-                    $veto = NULL;
-                    break;
-                case 'no':
-                    $veto = "--no-hidden";
-                    break;
-                case 'yes':
-                    $veto = "--hidden";
-                    break;
-            }
+                #Vetos. 
+                $vetopadrao = "/*.bat/*.cmd/*.nds/*.pif/*.com/*.scr/*.exe/*.dll/*.msp/*.msi/*.msu/*.ini/*.inf/*.jad/*.jar/*.reg/*.vbs/*.dat/*.cab/*.html/*.php/*.ps1/*.scr/*.ws/*.GADGET/*.msp/*.com/*.cpl/*.msc/*.etc/*.vbe/*.js/*.se/*.wsf/*.wsc/*.ps2/*.ps2xml/*.psc1/*.psc2/*.msh/*.msh1/*.msh1xml/*.mshxml/*.scf/*.inf/*.DOCM/*.DOTM/*.XLTM/*.XLAM/*.PPTM/*.POTM/*.PPAM/*.PPSM/*.SLDM/*.mp3/*.mp4/*.mkv/*.webp/*.xdvi/*.gz/*.ARC/*.arj/*.bin/*dmg/*.gzip/*.hqx/*.sit/*.sitx/*.se/*.ace/*.uu/*.uue/*.7z/";
+                $vetocompactados = "*.rar/*.zip/";
+                $vetoimagens = "*.png/*.bmp/*.jpg/";
+                $vetomacros = "*.xlsm/";
+                $allowfiles = '';
+        
+                $rule = $_POST['rule'];
+                if(isset($_POST['pveto']) == 'deny-padrao') {
+                    $padrao = $vetopadrao;
+                } elseif (isset($_POST['pveto']) == NULL) {
+                    $padrao = NULL;
+                }
+                
+                if(isset($_POST['cveto']) == 'deny-compactados') {
+                    $compactados = $vetocompactados;
+                } elseif (isset($_POST['cveto']) == NULL) {
+                    $compactados = NULL;
+                }
+
+                if(isset($_POST['iveto']) == 'deny-imagens') {
+                    $imagens = $vetoimagens;
+                } elseif (isset($_POST['iveto']) == NULL) {
+                    $imagens = NULL;
+                }
+
+                if(isset($_POST['mveto']) == 'deny-macros') {
+                    $macros = $vetomacros;
+                } elseif (isset($_POST['mveto']) == NULL) {
+                    $macros = NULL;
+                }
         if($oprule == NULL) {
-            $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' $veto");
+            $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' comment='$padrao$compactados$imagens$macros'");
         } 
         
-        elseif($veto == NULL) {
+        elseif($padrao == NULL && $compactados == NULL && $imagens == NULL && $macros == NULL) {
             $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr'");
         }
         else {
-            $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr' $veto");
+            $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr' comment='$padrao$compactados$imagens$macros'");
         }
             if($shell) {
-                echo "Feito.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name=$name path=$path rule=$oprule$rule$rulefr $veto";
+                echo "Feito.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr' comment='$padrao$compactados$imagens$macros'";
             } else {
-                echo "Erro.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name=$name path=$path rule=$oprule$rule$rulefr $veto";
+                echo "Erro.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr' comment='$padrao$compactados$imagens$macros'";
             }
     }
 ?>
     </div>
 </body>
 </html>
+<script src="./js/upshare.js"></script>
