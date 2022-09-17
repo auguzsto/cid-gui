@@ -252,7 +252,7 @@
         if(isset($_POST['mveto']) == 'deny-macros') {
             $macros = $vetomacros;
         }
-            $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' path='$path' rule='$oprule$rule$rulefr$oprule2$rule2$rulefr2$oprule3$rule3$rulefr3$oprule4$rule4$rulefr4$oprule5$rule5$rulefr5$oprule6$rule6$rulefr6$oprule7$rule7$rulefr7' comment='$padrao$compactados$imagens$macros'");
+            $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' path='$path' rule='$oprule$rule$rulefr$oprule2$rule2$rulefr2$oprule3$rule3$rulefr3$oprule4$rule4$rulefr4$oprule5$rule5$rulefr5$oprule6$rule6$rulefr6$oprule7$rule7$rulefr7' comment='$padrao$compactados$imagens$macros' && sudo -u www-data sudo chmod -R 771 '$path' && sudo -u www-data sudo chgrp 'domain admins' -R '$path'");
             if($shell) {
                 echo "Feito.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name='$name' path='$path' rule='$oprule$rule$rulefr$oprule2$rule2$rulefr2$oprule3$rule3$rulefr3$oprule4$rule4$rulefr4$oprule5$rule5$rulefr5$oprule6$rule6$rulefr6$oprule7$rule7$rulefr7' comment='$padrao$compactados$imagens$macros'";
             } else {
