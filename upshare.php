@@ -119,23 +119,56 @@
                     $macros = NULL;
                 }
         if($oprule == NULL) {
-            $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' comment='$padrao$compactados$imagens$macros'");
+            $shell = exec("sudo -u www-data sudo cid share add mode=common name='$name' comment='$padrao$compactados$imagens$macros'");
         } 
         
         elseif($padrao == NULL && $compactados == NULL && $imagens == NULL && $macros == NULL) {
-            $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr'");
+            $shell = exec("sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr'");
         }
         else {
-            $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr' comment='$padrao$compactados$imagens$macros'");
+            $shell = exec("sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr' comment='$padrao$compactados$imagens$macros'");
         }
             if($shell) {
                 echo "Feito.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr' comment='$padrao$compactados$imagens$macros'";
+
+                echo "
+                <script src='./js/jquery-3.6.1.min.js'></script>
+                <script src='./js/sweetalert2.all.min.js'></script>
+                <script type='text/javascript'>
+                    $(document).ready(function(){
+                        Swal.fire({
+                            position: 'top-end',
+                            title: 'Feito.',
+                            text: 'A pasta $name foi atualizada.',
+                            icon: 'success',
+                            showConfirmButton: false
+                        })
+                    });
+                    </script>
+                ";
             } else {
                 echo "Erro.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr' comment='$padrao$compactados$imagens$macros'";
+
+                echo "
+                <script src='./js/jquery-3.6.1.min.js'></script>
+                <script src='./js/sweetalert2.all.min.js'></script>
+                <script type='text/javascript'>
+                    $(document).ready(function(){
+                        Swal.fire({
+                            position: 'top-end',
+                            title: 'Ocorreu um erro.',
+                            text: 'Verifique se não há alguma informação incorreta nos campos.',
+                            icon: 'error',
+                            showConfirmButton: false
+                        })
+                    });
+                    </script>
+                ";
             }
     }
 ?>
     </div>
 </body>
 </html>
+<script src='./js/jquery-3.6.1.min.js'></script>
 <script src="./js/upshare.js"></script>

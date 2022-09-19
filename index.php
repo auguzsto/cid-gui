@@ -252,16 +252,48 @@
         if(isset($_POST['mveto']) == 'deny-macros') {
             $macros = $vetomacros;
         }
-            $shell = shell_exec("sudo -u www-data sudo cid share add mode=common name='$name' path='$path' rule='$oprule$rule$rulefr$oprule2$rule2$rulefr2$oprule3$rule3$rulefr3$oprule4$rule4$rulefr4$oprule5$rule5$rulefr5$oprule6$rule6$rulefr6$oprule7$rule7$rulefr7' comment='$padrao$compactados$imagens$macros' && sudo -u www-data sudo chmod -R 771 '$path' && sudo -u www-data sudo chgrp 'domain admins' -R '$path'");
-            if($shell) {
+            $shell = exec("sudo -u www-data sudo cid share add mode=common name='$name' path='$path' rule='$oprule$rule$rulefr$oprule2$rule2$rulefr2$oprule3$rule3$rulefr3$oprule4$rule4$rulefr4$oprule5$rule5$rulefr5$oprule6$rule6$rulefr6$oprule7$rule7$rulefr7' comment='$padrao$compactados$imagens$macros' && sudo -u www-data sudo chmod -R 771 '$path' && sudo -u www-data sudo chgrp 'domain admins' -R '$path'");
+            if($shell == "$name share added!" || $shell == "$name share updated!") {
                 echo "Feito.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name='$name' path='$path' rule='$oprule$rule$rulefr$oprule2$rule2$rulefr2$oprule3$rule3$rulefr3$oprule4$rule4$rulefr4$oprule5$rule5$rulefr5$oprule6$rule6$rulefr6$oprule7$rule7$rulefr7' comment='$padrao$compactados$imagens$macros'";
+
+                echo "
+                <script src='./js/jquery-3.6.1.min.js'></script>
+                <script src='./js/sweetalert2.all.min.js'></script>
+                <script type='text/javascript'>
+                    $(document).ready(function(){
+                        Swal.fire({
+                            position: 'top-end',
+                            title: 'Feito.',
+                            text: 'A pasta $name foi compartilhada.',
+                            icon: 'success',
+                            showConfirmButton: false
+                        })
+                    });
+                    </script>
+                ";
             } else {
                 echo "Erro.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name=$name path=$path rule=$oprule$rule $veto";
+
+                echo "
+                <script src='./js/jquery-3.6.1.min.js'></script>
+                <script src='./js/sweetalert2.all.min.js'></script>
+                <script type='text/javascript'>
+                    $(document).ready(function(){
+                        Swal.fire({
+                            position: 'top-end',
+                            title: 'Ocorreu um erro.',
+                            text: 'Verifique se não há alguma informação incorreta nos campos.',
+                            icon: 'error',
+                            showConfirmButton: false
+                        })
+                    });
+                    </script>
+                ";
             }
     }
 ?>
 </div>
 </body>
 </html>
-<script src="./js/sweetalert2.all.min.js"></script>
+<script src="./js/jquery-3.6.1.min.js"></script>
 <script src="./js/index.js"></script>

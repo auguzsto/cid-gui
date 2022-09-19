@@ -34,3 +34,7 @@ pveto.addEventListener('click', (event) => {
         pveto.checked.disabled = true;
     }
 })
+
+function alertTrue () {
+    window.alert("ok");
+}
