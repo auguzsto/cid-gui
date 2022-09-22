@@ -52,6 +52,22 @@
                         <input class="form-check-input" type="checkbox" name="mveto" value="deny-macros" id="deny-macros" >
                         <label class="form-check-label">Macros</label>
                     </div>
+                    <div class="form-check form-switch form-check-inline mt-2">
+                        <input class="form-check-input" type="checkbox" name="vveto" value="deny-video" id="deny-video" >
+                        <label class="form-check-label">Vídeos</label>
+                    </div>
+                    <div class="form-check form-switch form-check-inline mt-2">
+                        <input class="form-check-input" type="checkbox" name="aveto" value="deny-audio" id="deny-audio" >
+                        <label class="form-check-label">Áudios</label>
+                    </div>
+                    <div class="form-check form-switch form-check-inline mt-2">
+                        <input class="form-check-input" type="checkbox" name="eveto" value="deny-executaveis" id="deny-executaveis" >
+                        <label class="form-check-label">Executáveis</label>
+                    </div>
+                    <div class="form-check form-switch form-check-inline mt-2">
+                        <input class="form-check-input" type="checkbox" name="atveto" value="deny-atalhos" id="deny-atalhos" >
+                        <label class="form-check-label">Atalhos</label>
+                    </div>
                     <input type="submit" value="OK" name="validar" id="validar" class="form-control btn btn-primary mt-2">
                 </form>
             </div>
@@ -88,10 +104,14 @@
 
             }
                 #Vetos. 
-                $vetopadrao = "/*.bat/*.cmd/*.nds/*.pif/*.com/*.scr/*.exe/*.dll/*.msp/*.msi/*.msu/*.ini/*.inf/*.jad/*.jar/*.reg/*.vbs/*.dat/*.cab/*.html/*.php/*.ps1/*.scr/*.ws/*.GADGET/*.msp/*.com/*.cpl/*.msc/*.etc/*.vbe/*.js/*.se/*.wsf/*.wsc/*.ps2/*.ps2xml/*.psc1/*.psc2/*.msh/*.msh1/*.msh1xml/*.mshxml/*.scf/*.inf/*.DOCM/*.DOTM/*.XLTM/*.XLAM/*.PPTM/*.POTM/*.PPAM/*.PPSM/*.SLDM/*.mp3/*.mp4/*.mkv/*.webp/*.xdvi/*.gz/*.ARC/*.arj/*.bin/*dmg/*.gzip/*.hqx/*.sit/*.sitx/*.se/*.ace/*.uu/*.uue/*.7z/";
+                $vetopadrao = "/*.bat/*.cmd/*.nds/*.pif/*.com/*.scr/*.dll/*.msp/*.msu/*.ini/*.inf/*.jad/*.jar/*.reg/*.vbs/*.dat/*.cab/*.html/*.php/*.ps1/*.scr/*.ws/*.GADGET/*.msp/*.com/*.cpl/*.msc/*.etc/*.vbe/*.js/*.se/*.wsf/*.wsc/*.ps2/*.ps2xml/*.psc1/*.psc2/*.msh/*.msh1/*.msh1xml/*.mshxml/*.scf/*.inf/*.DOCM/*.DOTM/*.XLTM/*.XLAM/*.PPTM/*.POTM/*.PPAM/*.PPSM/*.SLDM/*.mkv/*.webp/*.xdvi/*.gz/*.ARC/*.arj/*.bin/*dmg/*.gzip/*.hqx/*.sit/*.sitx/*.se/*.ace/*.uu/*.uue/*.7z/";
                 $vetocompactados = "*.rar/*.zip/";
                 $vetoimagens = "*.png/*.bmp/*.jpg/";
                 $vetomacros = "*.xlsm/";
+                $vetoaudio = "*.mp3/";
+                $vetovideo = "*.mp4/";
+                $vetoexecutaveis = "*.exe/*.msi/";
+                $vetoatalhos = "*.lnk/";
                 $allowfiles = '';
         
                 $rule = $_POST['rule'];
@@ -118,18 +138,43 @@
                 } elseif (isset($_POST['mveto']) == NULL) {
                     $macros = NULL;
                 }
+
+                if(isset($_POST['aveto']) == 'deny-audio') {
+                    $audio = $vetoaudio;
+                } elseif (isset($_POST['aveto']) == NULL) {
+                    $audio = NULL;
+                }
+
+                if(isset($_POST['vveto']) == 'deny-video') {
+                    $video = $vetovideo;
+                } elseif (isset($_POST['vveto']) == NULL) {
+                    $video = NULL;
+                }
+
+                if(isset($_POST['eveto']) == 'deny-executaveis') {
+                    $executaveis = $vetoexecutaveis;
+                } elseif (isset($_POST['eveto']) == NULL) {
+                    $executaveis = NULL;
+                }
+                
+                if(isset($_POST['atveto']) == 'deny-atalhos') {
+                    $atalhos = $vetoatalhos;
+                } elseif (isset($_POST['atveto']) == NULL) {
+                    $atalhos = NULL;
+                }
+
         if($oprule == NULL) {
-            $shell = exec("sudo -u www-data sudo cid share add mode=common name='$name' comment='$padrao$compactados$imagens$macros'");
+            $shell = exec("sudo -u www-data sudo cid share add mode=common name='$name' comment='$padrao$compactados$imagens$macros$audio$video$executaveis$atalhos'");
         } 
         
-        elseif($padrao == NULL && $compactados == NULL && $imagens == NULL && $macros == NULL) {
+        elseif($padrao == NULL && $compactados == NULL && $imagens == NULL && $macros == NULL && $audio == NULL && $video == NULL && $executaveis == NULL && $atalhos == NULL) {
             $shell = exec("sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr'");
         }
         else {
-            $shell = exec("sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr' comment='$padrao$compactados$imagens$macros'");
+            $shell = exec("sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr' comment='$padrao$compactados$imagens$macros$audio$video$executaveis$atalhos'");
         }
             if($shell) {
-                echo "Feito.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr' comment='$padrao$compactados$imagens$macros'";
+                echo "Feito.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr' comment='$padrao$compactados$imagens$macros$audio$video$executaveis$atalhos'";
 
                 echo "
                 <script src='./js/jquery-3.6.1.min.js'></script>
@@ -147,7 +192,7 @@
                     </script>
                 ";
             } else {
-                echo "Erro.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr' comment='$padrao$compactados$imagens$macros'";
+                echo "Erro.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name='$name' rule='$oprule$rule$rulefr' comment='$padrao$compactados$imagens$macros$audio$video$executaveis$atalhos'";
 
                 echo "
                 <script src='./js/jquery-3.6.1.min.js'></script>

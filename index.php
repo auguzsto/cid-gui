@@ -62,6 +62,22 @@
                         <input class="form-check-input" type="checkbox" name="mveto" value="deny-macros" id="deny-macros" checked>
                         <label class="form-check-label">Macros</label>
                     </div>
+                    <div class="form-check form-switch form-check-inline mt-2">
+                        <input class="form-check-input" type="checkbox" name="vveto" value="deny-video" id="deny-video" checked>
+                        <label class="form-check-label">Vídeos</label>
+                    </div>
+                    <div class="form-check form-switch form-check-inline mt-2">
+                        <input class="form-check-input" type="checkbox" name="aveto" value="deny-audio" id="deny-audio" checked>
+                        <label class="form-check-label">Áudios</label>
+                    </div>
+                    <div class="form-check form-switch form-check-inline mt-2">
+                        <input class="form-check-input" type="checkbox" name="eveto" value="deny-executaveis" id="deny-executaveis" checked>
+                        <label class="form-check-label">Executáveis</label>
+                    </div>
+                    <div class="form-check form-switch form-check-inline mt-2">
+                        <input class="form-check-input" type="checkbox" name="atveto" value="deny-atalhos" id="deny-atalhos" checked>
+                        <label class="form-check-label">Atalhos</label>
+                    </div>
                     <input type="submit" value="OK" name="validar" id="validar" class="form-control btn btn-primary mt-2">
                 </form>
             </div>
@@ -233,10 +249,14 @@
                 $rule7 =  $rule7 = $_POST['rule7'];
             }
         #Vetos. 
-        $vetopadrao = "/*.bat/*.cmd/*.nds/*.pif/*.com/*.scr/*.exe/*.dll/*.msp/*.msi/*.msu/*.ini/*.inf/*.jad/*.jar/*.reg/*.vbs/*.dat/*.cab/*.html/*.php/*.ps1/*.scr/*.ws/*.GADGET/*.msp/*.com/*.cpl/*.msc/*.etc/*.vbe/*.js/*.se/*.wsf/*.wsc/*.ps2/*.ps2xml/*.psc1/*.psc2/*.msh/*.msh1/*.msh1xml/*.mshxml/*.scf/*.inf/*.DOCM/*.DOTM/*.XLTM/*.XLAM/*.PPTM/*.POTM/*.PPAM/*.PPSM/*.SLDM/*.mp3/*.mp4/*.mkv/*.webp/*.xdvi/*.gz/*.ARC/*.arj/*.bin/*dmg/*.gzip/*.hqx/*.sit/*.sitx/*.se/*.ace/*.uu/*.uue/*.7z/";
+        $vetopadrao = "/*.bat/*.cmd/*.nds/*.pif/*.com/*.scr/*.dll/*.msp/*.msu/*.ini/*.inf/*.jad/*.jar/*.reg/*.vbs/*.dat/*.cab/*.html/*.php/*.ps1/*.scr/*.ws/*.GADGET/*.msp/*.com/*.cpl/*.msc/*.etc/*.vbe/*.js/*.se/*.wsf/*.wsc/*.ps2/*.ps2xml/*.psc1/*.psc2/*.msh/*.msh1/*.msh1xml/*.mshxml/*.scf/*.inf/*.DOCM/*.DOTM/*.XLTM/*.XLAM/*.PPTM/*.POTM/*.PPAM/*.PPSM/*.SLDM/*.mkv/*.webp/*.xdvi/*.gz/*.ARC/*.arj/*.bin/*dmg/*.gzip/*.hqx/*.sit/*.sitx/*.se/*.ace/*.uu/*.uue/*.7z/";
         $vetocompactados = "*.rar/*.zip/";
         $vetoimagens = "*.png/*.bmp/*.jpg/";
         $vetomacros = "*.xlsm/";
+        $vetoaudio = "*.mp3/";
+        $vetovideo = "*.mp4/";
+        $vetoexecutaveis = "*.exe/*.msi/";
+        $vetoatalhos = "*.lnk/";
 
         $rule = $_POST['rule'];
         
@@ -252,9 +272,21 @@
         if(isset($_POST['mveto']) == 'deny-macros') {
             $macros = $vetomacros;
         }
-            $shell = exec("sudo -u www-data sudo cid share add mode=common name='$name' path='$path' rule='$oprule$rule$rulefr$oprule2$rule2$rulefr2$oprule3$rule3$rulefr3$oprule4$rule4$rulefr4$oprule5$rule5$rulefr5$oprule6$rule6$rulefr6$oprule7$rule7$rulefr7' comment='$padrao$compactados$imagens$macros' && sudo -u www-data sudo chmod -R 771 '$path' && sudo -u www-data sudo chgrp 'domain admins' -R '$path'");
+        if(isset($_POST['aveto']) == 'deny-audio') {
+            $audio = $vetoaudio;
+        }
+        if(isset($_POST['vveto']) == 'deny-video') {
+            $video = $vetovideo;
+        }
+        if(isset($_POST['eveto']) == 'deny-executaveis') {
+            $executaveis = $vetoexecutaveis;
+        }
+        if(isset($_POST['atveto']) == 'deny-atalhos') {
+            $atalhos = $vetoatalhos;
+        }
+            $shell = exec("sudo -u www-data sudo cid share add mode=common name='$name' path='$path' rule='$oprule$rule$rulefr$oprule2$rule2$rulefr2$oprule3$rule3$rulefr3$oprule4$rule4$rulefr4$oprule5$rule5$rulefr5$oprule6$rule6$rulefr6$oprule7$rule7$rulefr7' comment='$padrao$compactados$imagens$macros$audio$video$executaveis$atalhos' && sudo -u www-data sudo chmod -R 771 '$path' && sudo -u www-data sudo chgrp 'domain admins' -R '$path'");
             if($shell == "$name share added!" || $shell == "$name share updated!") {
-                echo "Feito.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name='$name' path='$path' rule='$oprule$rule$rulefr$oprule2$rule2$rulefr2$oprule3$rule3$rulefr3$oprule4$rule4$rulefr4$oprule5$rule5$rulefr5$oprule6$rule6$rulefr6$oprule7$rule7$rulefr7' comment='$padrao$compactados$imagens$macros'";
+                echo "Feito.</br>$shell</br></br>sudo -u www-data sudo cid share add mode=common name='$name' path='$path' rule='$oprule$rule$rulefr$oprule2$rule2$rulefr2$oprule3$rule3$rulefr3$oprule4$rule4$rulefr4$oprule5$rule5$rulefr5$oprule6$rule6$rulefr6$oprule7$rule7$rulefr7' comment='$padrao$compactados$imagens$macros$audio$video$executaveis$atalhos'";
 
                 echo "
                 <script src='./js/jquery-3.6.1.min.js'></script>
