@@ -23,6 +23,8 @@ Agradecimentos pelo excelente trabalho ao Eduardo Moraes https://sourceforge.net
 
 # Requerimentos
 
+Faça download da última versão disponível https://github.com/auguzsto/cid/releases/ após isto, vá até /usr/share/cid e substitua os arquivos. 
+
 Aplicação foi testada no sistema operacional Debian 11, apache2, php7.4.
 
 >#sudo apt-get install apache2 && sudo apt-get install php
