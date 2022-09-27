@@ -8,6 +8,14 @@
     <link rel="stylesheet" href="./css/style.css">
     <title>CID-GUI</title>
 </head>
+<nav class="navbar bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand">CID-WEB</a>
+    <form class="d-flex">
+        <a href="./audit.php" class="btn btn-outline-danger">Logs</a>
+    </form>
+  </div>
+</nav>
 <body class="bg-whitesmoke">
     <div class="container p-5 justify-items-center">
         <div class="row g-3 d-flex justify-content-center">
