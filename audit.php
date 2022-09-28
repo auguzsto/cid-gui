@@ -21,8 +21,8 @@
     <div class="container p-5 justify-items-center">
         <div class="row g-3 d-flex justify-content-center">
             <div class="col-xl border rounded-3 p-3 bg-white">
-            <div class="d-flex justify-content-between"><h1>Auditoria</h1><a href="./index.php" class="btn btn-primary p-2 mb-3"> Voltar</a></div>
-            <div class="d-flex justify-content-between">Por enquanto apenas: Pasta criada, renomeação de objeto, remoção de objeto. Isso é um teste.</div>
+                <div class="d-flex justify-content-between"><h1>Auditoria</h1><a href="./index.php" class="btn btn-primary p-2 mb-3"> Voltar</a></div>
+                <div class="d-flex justify-content-between">Por enquanto apenas: Pasta criada, renomeação de objeto, remoção de objeto. Isso é um teste.</div>
                 <form action="<?php $_SERVER['PHP_SELF'];?>" method="POST" class="mt-3">
                     <label for="" class="mb-1">Filtros:</label>
                     <div class="input-group mb-3">
@@ -42,10 +42,12 @@
                         echo "<b>debug</b> sudo -u www-data sudo  cat /lab/logs/audit.log | grep -E '$data).*$name'";
                         foreach($output as $rows) {
                             $strings = array('cid-lab smbd_audit:', 'ok|', 'mkdirat|', '_laboratorio.local', 'renameat|', 'unlinkat|', '|/', '|');
-                            $replace = array("", "", "<span class='border rounded bg-warning text-light p-1'><b> Criou uma pasta </b></span>", "", "<span class='border rounded bg-success text-light p-1'> <b>Renomeou</b> </span> ", "<span class='border rounded bg-danger text-light p-1'> <b>Deletou</b> </span>", " <span class='border rounded bg-secondary p-1 text-light'>para</span>
+                            $replace = array("", "", "<span class='border rounded bg-warning text-light p-1'><b> Criou uma pasta </b></span> &nbsp;", "", "<span class='border rounded bg-success text-light p-1'> <b>Renomeou</b> </span>&nbsp;", "<span class='border rounded bg-danger text-light p-1'> <b>Deletou</b> </span>&nbsp;", " &nbsp;<span class='border rounded bg-secondary p-1 text-light'>para</span>
                              /", " - ");
-                            echo "<pre class='btn btn-light container border text-center'>".str_replace($strings, $replace, $rows)."</pre>";
+                            echo "<div class='container border mt-1 p-1'>".str_replace($strings, $replace, $rows)."</div>";
                         }
+
+
                     }
                 ?>
             </div>
