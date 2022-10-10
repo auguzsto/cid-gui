@@ -37,9 +37,10 @@
                         $name = $_POST['name'];
                         $formatDate = array("2022-", "01-", "02-", "03-", "04-", "05-", "06-", "07-", "08-", "09-", "10-", "11-", "12-");
                         $replaceDate = array("","Jan (","Fab (","March (","Apr (","May (","Jun (","Jul (","Aug (", "Sep (", "Oct (", "Nov (", "Dec (");
-                        $data = str_replace($formatDate, $replaceDate,$_POST['data']);
-                        $shell = exec("sudo -u www-data sudo  cat /lab/logs/audit.log | grep -E '$data).*$name'", $output, $return);
-                        echo "<b>debug</b> sudo -u www-data sudo  cat /lab/logs/audit.log | grep -E '$data).*$name'";
+                        $dataFull = str_replace($formatDate, $replaceDate,substr($_POST['data'], 0, 8));
+                        $dataDay = ltrim(substr($_POST['data'], 8), "0");
+                        $shell = exec("sudo -u www-data sudo  cat /lab/logs/audit.log | tr -s ' ' | grep -E -i '$dataFull$dataDay).*$name'", $output, $return);
+                        echo "<b>debug</b> sudo -u www-data sudo cat /lab/logs/audit.log  | tr -s ' ' | grep -E -i '$dataFull$dataDay).*$name'";
                         foreach($output as $rows) {
                             $strings = array('cid-lab smbd_audit:', 'ok|', 'mkdirat|', '_laboratorio.local', 'renameat|', 'unlinkat|', '|/', '|');
                             $replace = array("", "", "<span class='border rounded bg-warning text-light p-1'><b> Criou uma pasta </b></span> &nbsp;", "", "<span class='border rounded bg-success text-light p-1'> <b>Renomeou</b> </span>&nbsp;", "<span class='border rounded bg-danger text-light p-1'> <b>Deletou</b> </span>&nbsp;", " &nbsp;<span class='border rounded bg-secondary p-1 text-light'>para</span>
